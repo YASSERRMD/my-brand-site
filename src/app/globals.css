@@ -172,3 +172,59 @@ a, button, [role="button"], input, textarea, select {
   70%       { transform: translate(2%, -1%); }
   90%       { transform: translate(-3%, 1%); }
 }
+
+/* ─────────────────────────────────────────────
+   Reduced Motion — accessibility
+   ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .grain-overlay {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Mobile responsive adaptations
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    cursor: auto; /* Restore native cursor on touch */
+  }
+
+  a, button {
+    cursor: auto;
+  }
+
+  /* Slightly larger tap targets */
+  button, a {
+    min-height: 44px;
+  }
+
+  /* Reduce parallax on mobile */
+  .section-base {
+    padding: 4rem 1.5rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Print styles
+   ───────────────────────────────────────────── */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .grain-overlay,
+  canvas {
+    display: none !important;
+  }
+}
