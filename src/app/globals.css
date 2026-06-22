@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   MY Brand Design Tokens — Tailwind v4 theme
+   ───────────────────────────────────────────── */
+@theme inline {
+  /* Colors */
+  --color-void:         #000000;
+  --color-deep:         #050510;
+  --color-navy:         #0A0A1A;
+  --color-navy-mid:     #0D0D2B;
+  --color-gold:         #C9A84C;
+  --color-gold-light:   #D4A853;
+  --color-gold-dim:     #8a7235;
+  --color-electric:     #00BFFF;
+  --color-electric-dim: #0080AA;
+  --color-white:        #FFFFFF;
+  --color-white-dim:    rgba(255,255,255,0.6);
+  --color-white-muted:  rgba(255,255,255,0.3);
+  --color-glass:        rgba(255,255,255,0.04);
+  --color-glass-mid:    rgba(255,255,255,0.07);
+  --color-glass-border: rgba(255,255,255,0.08);
+  --color-glass-border-gold: rgba(201,168,76,0.2);
+
+  /* Typography */
+  --font-display:  var(--font-geist-sans), system-ui, sans-serif;
+  --font-body:     var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono:     var(--font-geist-mono), "JetBrains Mono", monospace;
+
+  /* Font sizes — fluid scale */
+  --font-size-hero:    clamp(3rem, 10vw, 9rem);
+  --font-size-title:   clamp(2rem, 5vw, 5rem);
+  --font-size-section: clamp(1.5rem, 3vw, 3rem);
+  --font-size-large:   clamp(1.125rem, 2vw, 1.5rem);
+
+  /* Spacing */
+  --spacing-section: clamp(5rem, 10vh, 10rem);
+
+  /* Easing */
+  --ease-cinematic:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-power4:      cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-expo:        cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Z-index layers */
+  --z-canvas:     0;
+  --z-content:    10;
+  --z-overlay:    20;
+  --z-nav:        30;
+  --z-cursor:     40;
+  --z-preloader:  50;
+}
+
+/* ─────────────────────────────────────────────
+   Modern CSS Reset
+   ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none; /* Custom cursor */
+}
+
+/* Remove default cursor for all interactive elements */
+a, button, [role="button"], input, textarea, select {
+  cursor: none;
+}
+
+/* Scrollbar — hidden by default (Lenis takes over) */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* Selection */
+::selection {
+  background: var(--color-gold);
+  color: var(--color-void);
+}
+
+/* Focus visible — accessible outline */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+/* ─────────────────────────────────────────────
+   Utility Classes
+   ───────────────────────────────────────────── */
+
+/* Glass morphism surface */
+.glass {
+  background: var(--color-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--color-glass-border);
+}
+
+.glass-gold {
+  background: rgba(201, 168, 76, 0.04);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--color-glass-border-gold);
+}
+
+/* Text gradient — gold shimmer */
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--color-gold) 0%, #fff8e7 50%, var(--color-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* HUD monospace data element */
+.hud-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-electric);
+  opacity: 0.7;
+}
+
+/* Section base */
+.section-base {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--spacing-section) clamp(1.5rem, 5vw, 6rem);
+}
+
+/* Glow effects */
+.glow-gold {
+  filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.4));
+}
+
+.glow-electric {
+  filter: drop-shadow(0 0 20px rgba(0, 191, 255, 0.4));
+}
+
+/* Grain noise overlay */
+.grain-overlay {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: var(--z-overlay);
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(2) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10%       { transform: translate(-2%, -3%); }
+  30%       { transform: translate(3%, 2%); }
+  50%       { transform: translate(-1%, 4%); }
+  70%       { transform: translate(2%, -1%); }
+  90%       { transform: translate(-3%, 1%); }
+}
