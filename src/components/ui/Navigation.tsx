@@ -54,13 +54,29 @@ export function Navigation({ visible }: NavigationProps) {
             className="relative"
             aria-label="Back to top"
           >
-            <Image
-              src="/assets/logo/my-logo.png"
-              alt="MY"
-              width={38}
-              height={38}
-              style={{ filter: "drop-shadow(0 0 8px rgba(201,168,76,0.4))" }}
-            />
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 7,
+                overflow: "hidden",
+                background: "linear-gradient(135deg, #C9A84C 0%, #8B6610 100%)",
+                boxShadow:
+                  "0 0 18px rgba(201,168,76,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
+                padding: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                src="/assets/logo/my-logo.png"
+                alt="MY"
+                width={34}
+                height={34}
+                style={{ display: "block", borderRadius: 4 }}
+              />
+            </div>
           </button>
 
           {/* Desktop nav */}
