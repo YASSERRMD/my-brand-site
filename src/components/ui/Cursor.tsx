@@ -5,7 +5,6 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function Cursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const dotRef = useRef<HTMLDivElement>(null);
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -24,11 +23,11 @@ export function Cursor() {
     };
 
     const handleHover = () => {
-      cursorRef.current?.classList.add("scale-150", "mix-blend-difference");
+      cursorRef.current?.style.setProperty("transform", "scale(1.5)");
     };
 
     const handleHoverOut = () => {
-      cursorRef.current?.classList.remove("scale-150", "mix-blend-difference");
+      cursorRef.current?.style.removeProperty("transform");
     };
 
     window.addEventListener("mousemove", moveCursor);
@@ -53,8 +52,6 @@ export function Cursor() {
       {/* Outer ring */}
       <motion.div
         ref={cursorRef}
-        style={{ x: cursorX, y: cursorY }}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#C9A84C] pointer-events-none transition-transform duration-200 mix-blend-difference"
         style={{
           x: cursorX,
           y: cursorY,
@@ -68,11 +65,11 @@ export function Cursor() {
           borderRadius: "50%",
           border: "1px solid #C9A84C",
           mixBlendMode: "difference",
+          transition: "transform 0.2s",
         }}
       />
       {/* Inner dot */}
       <motion.div
-        ref={dotRef}
         style={{
           x: dotX,
           y: dotY,
