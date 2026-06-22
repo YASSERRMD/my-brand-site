@@ -24,7 +24,7 @@ void main() {
   float dist = length(dir);
   if (dist < 1.5) { pos.xy += normalize(dir) * (1.5 - dist) * 0.3; }
   vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-  gl_PointSize = uSize * aScale * (250.0 / -mvPosition.z);
+  gl_PointSize = clamp(uSize * aScale * (120.0 / -mvPosition.z), 0.4, 4.0);
   gl_Position = projectionMatrix * mvPosition;
   vDistance = -mvPosition.z;
   vAlpha = smoothstep(8.0, 2.0, vDistance) * aScale;
@@ -41,12 +41,13 @@ void main() {
   vec2 uv = gl_PointCoord - 0.5;
   float d = length(uv);
   if (d > 0.5) discard;
-  float alpha = 1.0 - smoothstep(0.2, 0.5, d);
-  float blend = sin(uTime * 0.4 + vDistance * 0.15) * 0.5 + 0.5;
-  vec3 color = mix(uColorA, uColorB, blend * 0.35);
-  float glow = 1.0 - smoothstep(0.0, 0.25, d);
-  color += uColorA * glow * 0.4;
-  gl_FragColor = vec4(color, alpha * vAlpha * 0.65);
+  // Crisp disc: solid core, brief soft edge
+  float core = 1.0 - smoothstep(0.0, 0.3, d);
+  float rim  = 1.0 - smoothstep(0.3, 0.5, d);
+  float alpha = core * 0.9 + rim * 0.12;
+  float blend = sin(uTime * 0.35 + vDistance * 0.12) * 0.5 + 0.5;
+  vec3 color = mix(uColorA, uColorB, blend * 0.28);
+  gl_FragColor = vec4(color, alpha * vAlpha * 0.78);
 }
 `;
 
@@ -89,7 +90,7 @@ export function ParticleField({ count = 2000, spread = 8 }: ParticleFieldProps) 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uSize: { value: 2.5 },
+      uSize: { value: 0.55 },
       uMouse: { value: new THREE.Vector2(0, 0) },
       uColorA: { value: new THREE.Color("#C9A84C") },
       uColorB: { value: new THREE.Color("#00BFFF") },

@@ -25,7 +25,7 @@ export function SceneEnvironment() {
   return (
     <>
       <DynamicLighting />
-      <ParticleField count={2500} spread={9} />
+      <ParticleField count={3500} spread={10} />
       <PostProcessing />
     </>
   );

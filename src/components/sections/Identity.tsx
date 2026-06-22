@@ -45,6 +45,30 @@ export function Identity() {
         }}
       />
 
+      {/* Floating geometric accent */}
+      <motion.div
+        className="absolute top-1/3 right-[8%] hidden md:block pointer-events-none"
+        animate={{ y: [-12, 12, -12], rotate: [0, 5, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" opacity={0.06}>
+          <polygon points="60,5 115,90 5,90" stroke="#C9A84C" strokeWidth="1" />
+          <polygon points="60,25 95,85 25,85" stroke="#00BFFF" strokeWidth="0.5" />
+        </svg>
+      </motion.div>
+
+      {/* Floating circle accent */}
+      <motion.div
+        className="absolute bottom-1/4 left-[5%] hidden md:block pointer-events-none"
+        animate={{ y: [8, -8, 8], rotate: [0, -8, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+      >
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" opacity={0.05}>
+          <circle cx="40" cy="40" r="36" stroke="#C9A84C" strokeWidth="1" />
+          <circle cx="40" cy="40" r="20" stroke="#00BFFF" strokeWidth="0.5" strokeDasharray="4 4" />
+        </svg>
+      </motion.div>
+
       <div className="relative max-w-6xl w-full mx-auto grid md:grid-cols-2 gap-16 items-center">
         {/* Photo column */}
         <motion.div
@@ -155,23 +179,34 @@ export function Identity() {
             — Identity
           </div>
 
-          {/* Tagline */}
-          <div>
-            <h2
-              style={{
-                fontFamily: "var(--font-geist-sans)",
-                fontSize: "clamp(1.8rem, 4vw, 3rem)",
-                fontWeight: 700,
-                lineHeight: 1.1,
-                color: "#FFFFFF",
-              }}
-            >
-              Where{" "}
-              <span className="text-gradient-gold">Government</span>
-              <br />
-              meets{" "}
-              <span style={{ color: "#00BFFF" }}>Intelligence</span>
-            </h2>
+          {/* Tagline — staggered line reveals */}
+          <div className="flex flex-col gap-1 overflow-hidden">
+            {[
+              { text: ["Where ", "Government"], colors: ["#FFFFFF", "#C9A84C"] },
+              { text: ["meets ", "Intelligence"], colors: ["#FFFFFF", "#00BFFF"] },
+            ].map((line, li) => (
+              <div key={li} className="overflow-hidden">
+                <motion.h2
+                  initial={{ y: "110%", opacity: 0 }}
+                  animate={isInView ? { y: "0%", opacity: 1 } : {}}
+                  transition={{
+                    delay: 0.3 + li * 0.18,
+                    duration: 0.85,
+                    ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+                  }}
+                  style={{
+                    fontFamily: "var(--font-geist-sans)",
+                    fontSize: "clamp(1.8rem, 4vw, 3rem)",
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                    margin: 0,
+                  }}
+                >
+                  <span style={{ color: line.colors[0] }}>{line.text[0]}</span>
+                  <span style={{ color: line.colors[1] }}>{line.text[1]}</span>
+                </motion.h2>
+              </div>
+            ))}
           </div>
 
           {/* Description */}
