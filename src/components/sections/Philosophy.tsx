@@ -110,32 +110,30 @@ export function Philosophy() {
           — The Manifesto
         </motion.div>
 
-        {/* Three large statements */}
-        <div className="flex flex-col gap-12 mb-24">
+        {/* Three large statements — slide-up line reveals */}
+        <div className="flex flex-col gap-10 mb-24">
           {STATEMENTS.map((stmt, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 1.0,
-                delay: 0.2 + i * 0.25,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
-              <div
+            <div key={i} className="overflow-hidden">
+              <motion.div
+                initial={{ y: "110%", opacity: 0 }}
+                animate={isInView ? { y: "0%", opacity: 1 } : {}}
+                transition={{
+                  duration: 1.0,
+                  delay: 0.2 + i * 0.22,
+                  ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+                }}
                 style={{
                   fontFamily: "var(--font-geist-sans)",
                   fontSize: "clamp(1.6rem, 4.5vw, 3.5rem)",
                   fontWeight: 700,
                   lineHeight: 1.1,
-                  color: "rgba(255,255,255,0.35)",
+                  color: "rgba(255,255,255,0.32)",
                 }}
               >
                 {stmt.text}{" "}
                 <span style={{ color: stmt.color }}>{stmt.emphasis}</span>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           ))}
         </div>
 
