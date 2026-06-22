@@ -26,6 +26,17 @@ export const metadata: Metadata = {
   description:
     "Mohamed Yasser: Government Solution Architect, Emerging Technology Strategist, AI Systems Architect, and Digital Transformation Leader with 20+ years of experience.",
   robots: "index, follow",
+  openGraph: {
+    title: "Mohamed Yasser — Government Solution Architect",
+    description:
+      "Entering the mind of an architect designing the future of government, AI, and intelligent cities.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohamed Yasser — Government Solution Architect",
+  },
 };
 
 export default function RootLayout({
@@ -39,9 +50,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-void text-white overflow-x-hidden">
-        {children}
-      </body>
+      <body className="bg-void text-white overflow-x-hidden">{children}</body>
     </html>
   );
 }
