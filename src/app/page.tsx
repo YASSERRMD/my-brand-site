@@ -14,6 +14,8 @@ import { Architecture } from "@/components/sections/Architecture";
 import { Philosophy } from "@/components/sections/Philosophy";
 import { Impact } from "@/components/sections/Impact";
 import { Contact } from "@/components/sections/Contact";
+import { SkipLink } from "@/components/shared/SkipLink";
+import { WebGLErrorBoundary } from "@/components/shared/WebGLErrorBoundary";
 
 // Lazy-load WebGL canvas — heavy, skipped on server
 const WebGLProvider = dynamic(
@@ -31,12 +33,16 @@ export default function Home() {
 
   return (
     <>
+      <SkipLink />
+
       {/* WebGL canvas — fixed layer, behind all content */}
-      <Suspense fallback={null}>
-        <WebGLProvider>
-          <SceneEnvironment />
-        </WebGLProvider>
-      </Suspense>
+      <WebGLErrorBoundary>
+        <Suspense fallback={null}>
+          <WebGLProvider>
+            <SceneEnvironment />
+          </WebGLProvider>
+        </Suspense>
+      </WebGLErrorBoundary>
 
       {/* Cinematic preloader */}
       <Preloader onComplete={() => setSiteReady(true)} />
@@ -52,7 +58,7 @@ export default function Home() {
         <GSAPProvider>
           <Navigation visible={siteReady} />
 
-          <main className="relative" style={{ zIndex: 10 }}>
+          <main id="main-content" className="relative" style={{ zIndex: 10 }}>
             <Hero isReady={siteReady} />
             <Identity />
             <Architecture />
